@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1
+
+- Fix the Duo device selector opening the landscape deck when choosing the
+  portrait iPhone Duo template. It now always opens the portrait deck; use the
+  orientation control for landscape.
+
 ## 1.0.0
 
 - Connected and isolated screenshot canvases with drag-and-drop captures.

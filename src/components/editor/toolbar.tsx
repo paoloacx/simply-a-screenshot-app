@@ -354,12 +354,10 @@ export function Toolbar(props: Props) {
         <Select
           value={pickerDevice}
           onValueChange={(v) => {
-            // Duo exterior defaults to portrait; Duo interior defaults to landscape!
-            let targetOrientation = ORIENTATION_PAIRS[props.device] ? orientation : "portrait";
-            if (v === "duo-inner" && !props.device.startsWith("duo-inner")) {
-              targetOrientation = "landscape";
-            }
-            props.setDevice(deviceForOrientation(v as Device, targetOrientation));
+            // This list only contains portrait deck names, so selecting one
+            // must open that portrait deck. Landscape stays on its own entry
+            // and the orientation control.
+            props.setDevice(v as Device);
           }}
           disabled={props.busy}
         >

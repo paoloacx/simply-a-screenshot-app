@@ -1,7 +1,7 @@
 {
   "name": "simply-a-screenshot-app",
   "productName": "Simply a screenshot app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A macOS desktop editor for designing, localizing and exporting App Store and Google Play screenshots.",
   "author": "Paolo AC <hola@mirloapps.es>",
   "license": "MIT",

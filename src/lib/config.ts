@@ -10,4 +10,4 @@ export const KOFI_PANEL_URL = `https://ko-fi.com/${KOFI_USERNAME}/?hidefeed=true
 /** Public project links and contact. */
 export const REPOSITORY_URL = "https://github.com/paoloacx/simply-a-screenshot-app";
 export const CONTACT_EMAIL = "hola@mirloapps.es";
-export const APP_VERSION = "1.0.0";
+export const APP_VERSION = "1.0.1";
