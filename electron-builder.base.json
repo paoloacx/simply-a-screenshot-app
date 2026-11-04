@@ -1,0 +1,53 @@
+{
+  "appId": "com.paolo.simply-a-screenshot-app",
+  "productName": "Simply a screenshot app",
+  "copyright": "Copyright © 2026",
+  "directories": {
+    "output": "../Instalador"
+  },
+  "files": [
+    "electron/**/*",
+    ".next/**/*",
+    "!.next/cache/**/*",
+    "!.next/dev/**/*",
+    "public/**/*",
+    "!public/screenshots/uploaded/**/*",
+    "!public/fonts/imported/**/*",
+    "package.json",
+    "next.config.mjs"
+  ],
+  "asar": false,
+  "mac": {
+    "category": "public.app-category.developer-tools",
+    "icon": "build/icon.icns",
+    "target": [
+      {
+        "target": "dmg",
+        "arch": [
+          "arm64"
+        ]
+      }
+    ]
+  },
+  "dmg": {
+    "title": "Instalar Simply a screenshot app",
+    "background": "build/dmg-background.png",
+    "iconSize": 100,
+    "contents": [
+      {
+        "x": 130,
+        "y": 200
+      },
+      {
+        "x": 410,
+        "y": 200,
+        "type": "link",
+        "path": "/Applications"
+      }
+    ],
+    "window": {
+      "width": 540,
+      "height": 360
+    }
+  }
+}

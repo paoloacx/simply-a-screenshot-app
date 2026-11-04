@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="380" height="96" viewBox="0 0 380 96" fill="none">
+  <rect x="2" y="2" width="376" height="92" rx="46" fill="#14151A" fill-opacity="0.95"/>
+  <rect x="2" y="2" width="376" height="92" rx="46" stroke="white" stroke-opacity="0.18" stroke-width="2"/>
+  
+  <!-- 5 Gold Stars -->
+  <g transform="translate(28, 33)">
+    <!-- Star 1 -->
+    <path d="M14 2L17.8 9.8L26.5 11.1L20.2 17.2L21.7 25.8L14 21.7L6.3 25.8L7.8 17.2L1.5 11.1L10.2 9.8L14 2Z" fill="#FFB800"/>
+    <!-- Star 2 -->
+    <path d="M42 2L45.8 9.8L54.5 11.1L48.2 17.2L49.7 25.8L42 21.7L34.3 25.8L35.8 17.2L29.5 11.1L38.2 9.8L42 2Z" fill="#FFB800"/>
+    <!-- Star 3 -->
+    <path d="M70 2L73.8 9.8L82.5 11.1L76.2 17.2L77.7 25.8L70 21.7L62.3 25.8L63.8 17.2L57.5 11.1L66.2 9.8L70 2Z" fill="#FFB800"/>
+    <!-- Star 4 -->
+    <path d="M98 2L101.8 9.8L110.5 11.1L104.2 17.2L105.7 25.8L98 21.7L90.3 25.8L91.8 17.2L85.5 11.1L94.2 9.8L98 2Z" fill="#FFB800"/>
+    <!-- Star 5 -->
+    <path d="M126 2L129.8 9.8L138.5 11.1L132.2 17.2L133.7 25.8L126 21.7L118.3 25.8L119.8 17.2L113.5 11.1L122.2 9.8L126 2Z" fill="#FFB800"/>
+  </g>
+
+  <!-- Score 5.0 -->
+  <text x="182" y="58" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="800" letter-spacing="-0.5">5.0</text>
+
+  <!-- Dot separator -->
+  <circle cx="238" cy="50" r="3" fill="#6B7280"/>
+
+  <!-- Label -->
+  <text x="254" y="56" fill="#9CA3AF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700" letter-spacing="1">TOP RATED</text>
+</svg>

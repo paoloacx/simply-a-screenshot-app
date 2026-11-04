@@ -1,0 +1,18 @@
+<svg width="540" height="360" viewBox="0 0 540 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="540" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="0.55" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#EEF2FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="540" height="360" fill="url(#bg)"/>
+
+  <text x="270" y="58" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#0F172A">Simply a screenshot app</text>
+  <text x="270" y="86" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#64748B">Arrastra la app a la carpeta Aplicaciones</text>
+
+  <path d="M244 202 L312 202" stroke="#94A3B8" stroke-width="4" stroke-linecap="round"/>
+  <path d="M298 190 L314 202 L298 214" stroke="#94A3B8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <text x="270" y="330" text-anchor="middle" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#94A3B8">Apple Silicon · macOS 12 o posterior</text>
+</svg>

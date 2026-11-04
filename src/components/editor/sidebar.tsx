@@ -1,0 +1,150 @@
+"use client";
+import * as React from "react";
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import type { Device, Orientation, Scene, Slide, Theme } from "@/lib/types";
+import { isCreative } from "@/lib/constants";
+import { newSlide } from "@/lib/defaults";
+import { useI18n } from "@/lib/i18n";
+import { SlideThumb } from "./slide-thumb";
+
+type Props = {
+  slides: Slide[];
+  activeId: string | null;
+  device: Device;
+  orientation: Orientation;
+  theme: Theme;
+  locale: string;
+  appName?: string;
+  appIcon?: string;
+  fontFamily?: string;
+  connectedCanvas: boolean;
+  scene?: Scene;
+  disabled?: boolean;
+  onReorder: (next: Slide[]) => void;
+  onSelect: (id: string) => void;
+  onDelete: (id: string) => void;
+  onDuplicate: (id: string) => void;
+  onAdd: (slide: Slide) => void;
+};
+
+export function Sidebar({
+  slides,
+  activeId,
+  device,
+  orientation,
+  theme,
+  locale,
+  appName,
+  appIcon,
+  fontFamily,
+  connectedCanvas,
+  scene,
+  disabled,
+  onReorder,
+  onSelect,
+  onDelete,
+  onDuplicate,
+  onAdd,
+}: Props) {
+  const { t } = useI18n();
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
+  const handleDragEnd = (e: DragEndEvent) => {
+    const { active, over } = e;
+    if (!over || active.id === over.id) return;
+    const oldIdx = slides.findIndex((s) => s.id === active.id);
+    const newIdx = slides.findIndex((s) => s.id === over.id);
+    if (oldIdx === -1 || newIdx === -1) return;
+    onReorder(arrayMove(slides, oldIdx, newIdx));
+  };
+
+  return (
+    <div className="flex h-full flex-col">
+      <div className="border-b p-3">
+        <h2 className="text-sm font-semibold">{t("Pantallas")}</h2>
+        <p className="text-xs text-muted-foreground">
+          {slides.length} {t(slides.length === 1 ? "captura" : "capturas")} · {t("arrastra para reordenar")}
+        </p>
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-2">
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={slides.map((s) => s.id)} strategy={verticalListSortingStrategy}>
+            <div className="space-y-1.5">
+              {slides.map((slide, i) => (
+                <SlideThumb
+                  key={slide.id}
+                  slide={slide}
+                  slides={slides}
+                  index={i}
+                  active={slide.id === activeId}
+                  device={device}
+                  orientation={orientation}
+                  theme={theme}
+                  locale={locale}
+                  appName={appName}
+                  appIcon={appIcon}
+                  fontFamily={fontFamily}
+                  connectedCanvas={connectedCanvas}
+                  scene={scene}
+                  onSelect={() => onSelect(slide.id)}
+                  onDelete={() => onDelete(slide.id)}
+                  onDuplicate={() => onDuplicate(slide.id)}
+                />
+              ))}
+              {slides.length === 0 && (
+                <div className="rounded-lg border border-dashed p-6 text-center">
+                  <p className="text-xs font-medium text-foreground">{t("Aún no hay capturas")}</p>
+                  <p className="mt-1 text-[11px] text-muted-foreground">
+                    {t("Pulsa en")} <span className="font-semibold">{t("Añadir pantalla")}</span> {t("para comenzar.")}
+                  </p>
+                </div>
+              )}
+            </div>
+          </SortableContext>
+        </DndContext>
+      </div>
+
+      <div className="border-t bg-card p-3">
+        <Button
+          type="button"
+          className="w-full"
+          variant="default"
+          onClick={() =>
+            onAdd(
+              newSlide(
+                device === "feature-graphic"
+                  ? "feature-graphic"
+                  : device === "mac" || device.endsWith("-landscape") || isCreative(device)
+                    ? "split-landscape"
+                    : "device-bottom",
+              ),
+            )
+          }
+          disabled={disabled}
+        >
+          <Plus className="h-4 w-4" /> {t("Añadir pantalla")}
+        </Button>
+      </div>
+    </div>
+  );
+}

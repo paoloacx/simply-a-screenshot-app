@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production & Build outputs
+.next/
+out/
+dist/
+build/*
+!build/icon.png
+!build/icon.icns
+!build/dmg-background.png
+!build/dmg-background.svg
+!build/entitlements.mac.plist
+*.dmg
+*.blockmap
+
+# Environment & local files
+.env*.local
+.env
+.env.notarize
+notarize.env
+*.p8
+*.p12
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+
+# User data lives outside the repo, in
+# ~/Library/Application Support/Simply a screenshot app/data (see README).
+# This folder is only a legacy fallback for bundled fonts.
+public/fonts/imported/*
+!public/fonts/imported/.gitkeep

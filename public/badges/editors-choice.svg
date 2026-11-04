@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="150" viewBox="0 0 480 150" fill="none">
+  <defs>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="50%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left Laurel Wreath Branch -->
+  <g transform="translate(68, 75)" fill="url(#gold)" stroke="none">
+    <!-- Stem -->
+    <path d="M0,45 C-18,25 -22,-10 -2,-45 C-3,-44 -20,-10 -1,45 Z" opacity="0.7"/>
+    <!-- Leaf pairs -->
+    <path d="M-6,-40 C-18,-45 -22,-32 -10,-28 C-4,-26 -3,-34 -6,-40 Z"/>
+    <path d="M4,-36 C-4,-45 -12,-36 -4,-28 C0,-24 5,-28 4,-36 Z"/>
+    <path d="M-15,-20 C-30,-22 -32,-8 -18,-7 C-10,-6 -10,-15 -15,-20 Z"/>
+    <path d="M-4,-14 C-14,-22 -22,-10 -12,-4 C-6,0 -1,-6 -4,-14 Z"/>
+    <path d="M-19,3 C-35,3 -35,18 -20,17 C-12,17 -12,8 -19,3 Z"/>
+    <path d="M-6,7 C-17,2 -22,15 -12,20 C-6,23 0,16 -6,7 Z"/>
+    <path d="M-16,26 C-31,29 -28,43 -14,39 C-8,37 -9,29 -16,26 Z"/>
+    <path d="M-4,28 C-13,26 -16,39 -7,42 C-1,44 3,36 -4,28 Z"/>
+  </g>
+
+  <!-- Right Laurel Wreath Branch -->
+  <g transform="translate(412, 75) scale(-1, 1)" fill="url(#gold)" stroke="none">
+    <!-- Stem -->
+    <path d="M0,45 C-18,25 -22,-10 -2,-45 C-3,-44 -20,-10 -1,45 Z" opacity="0.7"/>
+    <!-- Leaf pairs -->
+    <path d="M-6,-40 C-18,-45 -22,-32 -10,-28 C-4,-26 -3,-34 -6,-40 Z"/>
+    <path d="M4,-36 C-4,-45 -12,-36 -4,-28 C0,-24 5,-28 4,-36 Z"/>
+    <path d="M-15,-20 C-30,-22 -32,-8 -18,-7 C-10,-6 -10,-15 -15,-20 Z"/>
+    <path d="M-4,-14 C-14,-22 -22,-10 -12,-4 C-6,0 -1,-6 -4,-14 Z"/>
+    <path d="M-19,3 C-35,3 -35,18 -20,17 C-12,17 -12,8 -19,3 Z"/>
+    <path d="M-6,7 C-17,2 -22,15 -12,20 C-6,23 0,16 -6,7 Z"/>
+    <path d="M-16,26 C-31,29 -28,43 -14,39 C-8,37 -9,29 -16,26 Z"/>
+    <path d="M-4,28 C-13,26 -16,39 -7,42 C-1,44 3,36 -4,28 Z"/>
+  </g>
+
+  <!-- Star at top center -->
+  <path d="M240 26L243.5 34.5L252.5 35.5L245.8 41.5L247.8 50.5L240 46L232.2 50.5L234.2 41.5L227.5 35.5L236.5 34.5L240 26Z" fill="url(#gold)"/>
+
+  <!-- Texts in center -->
+  <text x="240" y="78" text-anchor="middle" fill="url(#gold)" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif" font-size="21" font-weight="800" letter-spacing="3.5">ELECCIÓN DE LOS EDITORES</text>
+  
+  <text x="240" y="105" text-anchor="middle" fill="url(#gold)" opacity="0.85" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" letter-spacing="4">APP STORE</text>
+</svg>

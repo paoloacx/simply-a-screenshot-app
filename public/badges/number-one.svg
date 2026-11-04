@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="460" height="130" viewBox="0 0 460 130" fill="none">
+  <defs>
+    <linearGradient id="goldRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="40%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="2" y="2" width="456" height="126" rx="63" fill="#18181B" fill-opacity="0.94"/>
+  <rect x="2" y="2" width="456" height="126" rx="63" stroke="url(#goldRibbon)" stroke-width="2.5"/>
+
+  <!-- Trophy Icon -->
+  <g transform="translate(42, 33)" stroke="url(#goldRibbon)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M12 9H48V27C48 37 39 45 30 45C21 45 12 37 12 27V9Z" fill="url(#goldRibbon)" fill-opacity="0.15"/>
+    <path d="M12 15H4C4 26 12 28 12 28"/>
+    <path d="M48 15H56C56 26 48 28 48 28"/>
+    <path d="M30 45V55"/>
+    <path d="M18 55H42"/>
+  </g>
+
+  <!-- Number 1 Large -->
+  <text x="124" y="78" fill="url(#goldRibbon)" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="900" letter-spacing="-1">N.º 1</text>
+
+  <!-- Subtitle -->
+  <text x="238" y="60" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif" font-size="19" font-weight="800" letter-spacing="1.5">EN LA APP STORE</text>
+  <text x="238" y="82" fill="#A1A1AA" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" letter-spacing="0.5">TOP RANKING OFICIAL</text>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="120" viewBox="0 0 480 120" fill="none">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="2" y="2" width="476" height="116" rx="58" fill="#111827" fill-opacity="0.94"/>
+  <rect x="2" y="2" width="476" height="116" rx="58" stroke="#374151" stroke-width="2"/>
+
+  <!-- Shield Icon -->
+  <g transform="translate(38, 30)">
+    <path d="M30 4L8 14V30C8 44 17 56 30 60C43 56 52 44 52 30V14L30 4Z" fill="url(#shieldGrad)" fill-opacity="0.2" stroke="url(#shieldGrad)" stroke-width="3"/>
+    <path d="M21 31L27 37L39 25" stroke="#34D399" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Title & details -->
+  <text x="115" y="56" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800" letter-spacing="1">100% PRIVADO Y SEGURO</text>
+  <text x="115" y="80" fill="#9CA3AF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="500">Sin anuncios · Sin rastreo de datos</text>
+</svg>

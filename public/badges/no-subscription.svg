@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="410" height="96" viewBox="0 0 410 96" fill="none">
+  <defs>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="2" y="2" width="406" height="92" rx="46" fill="#14151A" fill-opacity="0.95"/>
+  <rect x="2" y="2" width="406" height="92" rx="46" stroke="white" stroke-opacity="0.18" stroke-width="2"/>
+
+  <!-- Infinity / Unlock Icon -->
+  <g transform="translate(32, 26)" stroke="url(#blueGrad)" stroke-width="2.5" fill="none">
+    <path d="M14 16C8 16 4 20 4 25C4 30 8 34 14 34C20 34 26 25 32 25C38 25 44 29 44 34C44 39 40 43 34 43C28 43 22 34 16 34" stroke-linecap="round"/>
+    <circle cx="16" cy="25" r="7"/>
+    <circle cx="32" cy="25" r="7"/>
+  </g>
+
+  <!-- Typography -->
+  <text x="88" y="45" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="800" letter-spacing="1">NO SUBSCRIPTION</text>
+  <text x="88" y="66" fill="#9CA3AF" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500">Pay once · Lifetime access forever</text>
+</svg>
