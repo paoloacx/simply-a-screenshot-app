@@ -68,12 +68,12 @@ carpeta Application Support del usuario; no requiere cuenta ni servicio remoto.
 
 - **Lienzo.** Pantallas conectadas o aisladas, capturas arrastradas, orden de
   capas, alineación y diseños por pantalla.
-- **Dispositivos.** iPhone 6.9", iPad 13", iPhone Duo, Apple TV, Apple Watch,
+- **Dispositivos.** iPhone 6.3", iPad 13", iPhone Duo, Apple TV, Apple Watch,
   CarPlay, Mac, móviles y tablets Android, gráfico destacado de Google Play y
   recursos creativos de App Store. Los marcos de Apple están incluidos.
-- **Localización.** Textos por idioma, traducción mediante el servicio público
-  de Google (requiere internet; no es una API oficial) y revisión de cada idioma
-  antes de exportar.
+- **Localización.** Textos por idioma con idioma base seleccionable, traducción
+  mediante el servicio público de Google (requiere internet; no es una API
+  oficial) y revisión de cada idioma antes de exportar.
 - **Estilo.** Temas, paletas, degradados, texturas, fuentes incluidas e
   importadas, escenas y capas de imagen.
 - **Proyectos.** Varios proyectos con guardado automático, importación y

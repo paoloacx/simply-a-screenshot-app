@@ -33,7 +33,7 @@ export function OnboardingDialog({ open, onOpenChange }: Props) {
     {
       icon: Ruler,
       title: t("Los tamaños de Apple"),
-      body: t("iPhone 6.9″, iPad 13″, Watch, TV y Mac, más los banners de cabecera y resultados de búsqueda, con las medidas exactas."),
+      body: t("iPhone 6.3″, iPad 13″, Watch, TV y Mac, más los banners de cabecera y resultados de búsqueda, con las medidas exactas."),
     },
     {
       icon: Layers,

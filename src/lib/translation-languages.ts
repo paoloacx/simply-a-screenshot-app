@@ -35,6 +35,16 @@ export const ALL_SUPPORTED_LANGUAGES: TranslationLanguage[] = [
   { code: "ru", name: "Ruso", nativeName: "Русский", flag: "🇷🇺", gCode: "ru" },
 ];
 
+const CORE_PACK_CODES = [BASE_LANGUAGE.code, ...DEFAULT_TRANSLATION_PACK.map((l) => l.code)];
+
+/** Devuelve los 5 idiomas del paquete estándar excluyendo el idioma base elegido. */
+export function getTranslationPackForSource(sourceCode: string): TranslationLanguage[] {
+  const normalized = sourceCode.toLowerCase();
+  return ALL_SUPPORTED_LANGUAGES.filter(
+    (l) => CORE_PACK_CODES.includes(l.code) && l.code.toLowerCase() !== normalized,
+  ).slice(0, 5);
+}
+
 export function getLanguageInfo(code: string): TranslationLanguage {
   const normalized = code.toLowerCase();
   const found = ALL_SUPPORTED_LANGUAGES.find(

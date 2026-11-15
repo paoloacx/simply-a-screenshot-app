@@ -65,12 +65,12 @@ Support directory; no account or remote service is required.
 
 - **Canvas.** Connected or isolated screens, drag-and-drop captures, layer
   ordering, alignment and per-slide layouts.
-- **Devices.** iPhone 6.9", iPad 13", iPhone Duo, Apple TV, Apple Watch,
+- **Devices.** iPhone 6.3", iPad 13", iPhone Duo, Apple TV, Apple Watch,
   CarPlay, Mac, Android phones and tablets, Google Play feature graphic and App
   Store creative assets. Apple's device bezels are bundled.
-- **Localization.** Per-locale copy, translation through Google's public
-  endpoint (internet required; not an official API) and per-locale review before
-  export.
+- **Localization.** Per-locale copy with selectable base language, translation
+  through Google's public endpoint (internet required; not an official API) and
+  per-locale review before export.
 - **Styling.** Themes, palettes, gradients, textures, bundled and imported fonts,
   scenes and image overlays.
 - **Projects.** Multiple projects with automatic saving, import and export.

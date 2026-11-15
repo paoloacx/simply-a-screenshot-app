@@ -40,15 +40,15 @@ export type ExportSize = { label: string; w: number; h: number };
 // App Store Connect requires (or Google Play, for Android); the rest stay
 // selectable in the toolbar for older devices. A bundle never mixes sizes.
 //
-// For iOS, App Store Connect requires either the 6.9" set (1320x2868) or the
-// 6.5" set (1284x2778); the 6.3" set (1206x2622) is optional and Apple fills it
-// by downscaling the 6.9" upload.
+// For iOS, App Store Connect accepts the 6.3" set (1206x2622) and the 6.1"
+// set (1179x2556) as the primary iPhone screenshot sizes. The 6.9" (1320x2868)
+// and 6.5" (1284x2778) sizes remain available as secondary options.
 export const EXPORT_SIZES: Record<Device, ExportSize[]> = {
   iphone: [
-    { label: '6.9" · 1320×2868 (App Store)', w: 1320, h: 2868 },
+    { label: '6.3" · 1206×2622 (App Store)', w: 1206, h: 2622 },
+    { label: '6.1" · 1179×2556', w: 1179, h: 2556 },
+    { label: '6.9" · 1320×2868', w: 1320, h: 2868 },
     { label: '6.5" · 1284×2778', w: 1284, h: 2778 },
-    { label: '6.3" · 1206×2622', w: 1206, h: 2622 },
-    { label: '6.1" · 1125×2436', w: 1125, h: 2436 },
   ],
   ipad: [
     { label: '13" · 2064×2752 (App Store)', w: 2064, h: 2752 },
@@ -81,12 +81,12 @@ export const EXPORT_SIZES: Record<Device, ExportSize[]> = {
   // metadata, not documentation: `asc screenshots sizes --all` lists APPLE_TV,
   // VISION_PRO, DESKTOP, IPAD*, IPHONE*, WATCH* and nothing for CarPlay. A CarPlay
   // app ships inside its iPhone app, so a CarPlay shot is submitted in an iPhone
-  // slot. The first size is the 6.9" iPhone size turned sideways.
+  // slot. The first size is the 6.3" iPhone size turned sideways.
   carplay: [
-    { label: '6.9" · 2868×1320 (iPhone slot)', w: 2868, h: 1320 },
+    { label: '6.3" · 2622×1206 (iPhone slot)', w: 2622, h: 1206 },
+    { label: '6.1" · 2556×1179', w: 2556, h: 1179 },
+    { label: '6.9" · 2868×1320', w: 2868, h: 1320 },
     { label: '6.5" · 2778×1284', w: 2778, h: 1284 },
-    { label: '6.3" · 2622×1206', w: 2622, h: 1206 },
-    { label: '6.1" · 2436×1125', w: 2436, h: 1125 },
   ],
   // App Store Connect display type APP_DESKTOP (Mac App Store). 2880x1800 is the
   // required native size; the others are optional downscales.

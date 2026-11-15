@@ -12,11 +12,17 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   ALL_SUPPORTED_LANGUAGES,
   BASE_LANGUAGE,
-  DEFAULT_TRANSLATION_PACK,
   getLanguageInfo,
-  type TranslationLanguage,
+  getTranslationPackForSource,
 } from "@/lib/translation-languages";
 import { extractTranslatableTexts, executeAutoTranslation } from "@/lib/auto-translate";
 import type { Device, ProjectState, Slide } from "@/lib/types";
@@ -37,10 +43,32 @@ export function TranslateDialog({
   project,
   onProjectUpdate,
 }: TranslateDialogProps) {
-  // Idiomas seleccionados para traducir (por defecto los 5 solicitados)
-  const [selectedLangCodes, setSelectedLangCodes] = React.useState<string[]>(
-    DEFAULT_TRANSLATION_PACK.map((l) => l.code),
+  const resolveInitialSource = React.useCallback(
+    (locale: string) =>
+      ALL_SUPPORTED_LANGUAGES.some((l) => l.code === locale) ? locale : BASE_LANGUAGE.code,
+    [],
   );
+
+  // Idioma base (origen) desde el que se traducirá
+  const [sourceLang, setSourceLang] = React.useState<string>(() =>
+    resolveInitialSource(project.locale),
+  );
+  // Idiomas seleccionados para traducir (por defecto los 5 del paquete estándar para el idioma base)
+  const [selectedLangCodes, setSelectedLangCodes] = React.useState<string[]>(() =>
+    getTranslationPackForSource(resolveInitialSource(project.locale)).map((l) => l.code),
+  );
+
+  // Sincronizar el idioma base al abrir el diálogo si cambió el idioma activo del proyecto
+  React.useEffect(() => {
+    if (!open) return;
+    const nextSource = resolveInitialSource(project.locale);
+    setSourceLang(nextSource);
+    setSelectedLangCodes(getTranslationPackForSource(nextSource).map((l) => l.code));
+  }, [open, project.locale, resolveInitialSource]);
+
+  const sourceInfo = React.useMemo(() => getLanguageInfo(sourceLang), [sourceLang]);
+  const standardPack = React.useMemo(() => getTranslationPackForSource(sourceLang), [sourceLang]);
+
   // Mostrar idiomas adicionales (italiano, portugués, japonés, etc.)
   const [showMoreLangs, setShowMoreLangs] = React.useState(false);
   // Ámbito: todo el proyecto o solo el dispositivo actual
@@ -68,28 +96,41 @@ export function TranslateDialog({
 
   // Textos detectados
   const { uniqueTexts, totalOccurrences } = React.useMemo(() => {
-    return extractTranslatableTexts(targetSlides, project.locale);
-  }, [targetSlides, project.locale]);
+    return extractTranslatableTexts(targetSlides, project.locale, sourceLang);
+  }, [targetSlides, project.locale, sourceLang]);
 
   const otherLanguages = React.useMemo(() => {
-    const defaultCodes = new Set([BASE_LANGUAGE.code, ...DEFAULT_TRANSLATION_PACK.map((l) => l.code)]);
-    return ALL_SUPPORTED_LANGUAGES.filter((l) => !defaultCodes.has(l.code));
-  }, []);
+    const excluded = new Set([sourceLang, ...standardPack.map((l) => l.code)]);
+    return ALL_SUPPORTED_LANGUAGES.filter((l) => !excluded.has(l.code));
+  }, [sourceLang, standardPack]);
+
+  const handleSourceLangChange = (nextSource: string) => {
+    const prevSource = sourceLang;
+    setSourceLang(nextSource);
+    setSelectedLangCodes((prev) => {
+      const nextPackCodes = new Set(getTranslationPackForSource(nextSource).map((l) => l.code));
+      const filtered = prev.filter((c) => c !== nextSource);
+      if (nextPackCodes.has(prevSource) && !filtered.includes(prevSource)) {
+        return [prevSource, ...filtered];
+      }
+      return filtered.length > 0 ? filtered : Array.from(nextPackCodes);
+    });
+  };
 
   const toggleLanguage = (code: string) => {
-    if (code === BASE_LANGUAGE.code) return; // Español es siempre base
+    if (code === sourceLang) return;
     setSelectedLangCodes((prev) =>
       prev.includes(code) ? prev.filter((c) => c !== code) : [...prev, code],
     );
   };
 
   const handleSelectDefaultPack = () => {
-    setSelectedLangCodes(DEFAULT_TRANSLATION_PACK.map((l) => l.code));
+    setSelectedLangCodes(standardPack.map((l) => l.code));
   };
 
   const handleSelectAll = () => {
     setSelectedLangCodes(
-      ALL_SUPPORTED_LANGUAGES.filter((l) => l.code !== BASE_LANGUAGE.code).map((l) => l.code),
+      ALL_SUPPORTED_LANGUAGES.filter((l) => l.code !== sourceLang).map((l) => l.code),
     );
   };
 
@@ -111,7 +152,8 @@ export function TranslateDialog({
     setProgressStatus(tr("Iniciando traducción..."));
 
     try {
-      const { nextState, result } = await executeAutoTranslation(project, {
+      const { nextState } = await executeAutoTranslation(project, {
+        sourceLang,
         targetLangs: selectedLangCodes,
         deviceOnly,
         onProgress: (status) => setProgressStatus(status),
@@ -155,19 +197,34 @@ export function TranslateDialog({
         <div className="space-y-4 py-2">
           {/* Idioma base de referencia */}
           <div className="rounded-lg border bg-muted/40 p-3">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-lg">{BASE_LANGUAGE.flag}</span>
+                <span className="text-lg">{sourceInfo.flag}</span>
                 <div>
-                  <p className="text-xs font-semibold">{tr("Idioma base: {language}", { language: BASE_LANGUAGE.name })}</p>
+                  <p className="text-xs font-semibold">{tr("Idioma base: {language}", { language: sourceInfo.name })}</p>
                   <p className="text-[11px] text-muted-foreground">
-                    {tr("Los textos en español se usarán como fuente para todas las traducciones.")}
+                    {tr("Los textos en {language} se usarán como fuente para todas las traducciones.", { language: sourceInfo.name })}
                   </p>
                 </div>
               </div>
-              <span className="rounded bg-primary/15 px-2 py-0.5 text-[10px] font-medium text-primary">
-                Base
-              </span>
+              <Select value={sourceLang} onValueChange={handleSourceLangChange} disabled={loading}>
+                <SelectTrigger className="h-8 w-full sm:w-[170px] text-xs" aria-label={tr("Idioma base")}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {ALL_SUPPORTED_LANGUAGES.map((lang) => (
+                    <SelectItem key={lang.code} value={lang.code}>
+                      <span className="flex items-center gap-2">
+                        <span>{lang.flag}</span>
+                        <span>{lang.name}</span>
+                        <span className="text-[10px] uppercase font-mono opacity-60">
+                          ({lang.code})
+                        </span>
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
@@ -200,7 +257,7 @@ export function TranslateDialog({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {DEFAULT_TRANSLATION_PACK.map((lang) => {
+              {standardPack.map((lang) => {
                 const isSelected = selectedLangCodes.includes(lang.code);
                 return (
                   <button

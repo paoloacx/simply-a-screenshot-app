@@ -34,7 +34,7 @@ import {
 } from "@/lib/constants";
 import { detectPlatform } from "@/lib/defaults";
 import { useI18n } from "@/lib/i18n";
-import { getLanguageInfo } from "@/lib/translation-languages";
+import { ALL_SUPPORTED_LANGUAGES, getLanguageInfo } from "@/lib/translation-languages";
 import type { Device, ImportedFont, Orientation, Palette, Platform, Scene, ScreenshotFontId, Theme } from "@/lib/types";
 import { ExportDialog, type ExportDeviceOption } from "./export-dialog";
 import { FontImporter, type FontImporterHandle } from "./font-importer";
@@ -431,6 +431,20 @@ export function Toolbar(props: Props) {
                 </SelectItem>
               );
             })}
+            {ALL_SUPPORTED_LANGUAGES.some((l) => !props.locales.includes(l.code)) && (
+              <>
+                <SelectSeparator />
+                {ALL_SUPPORTED_LANGUAGES.filter((l) => !props.locales.includes(l.code)).map((info) => (
+                  <SelectItem key={info.code} value={info.code}>
+                    <div className="flex items-center gap-2">
+                      <span>{info.flag}</span>
+                      <span className="font-medium">{info.code.toUpperCase()}</span>
+                      <span className="text-muted-foreground text-xs font-normal">({info.name})</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </>
+            )}
           </SelectContent>
         </Select>
 

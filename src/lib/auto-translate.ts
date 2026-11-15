@@ -1,6 +1,6 @@
 import { pickText, writeLocalized } from "./locale";
 import type { LocalizedText, ProjectState, Slide, TextElement } from "./types";
-import { BASE_LANGUAGE, DEFAULT_TRANSLATION_PACK, getLanguageInfo } from "./translation-languages";
+import { BASE_LANGUAGE, getLanguageInfo, getTranslationPackForSource } from "./translation-languages";
 
 export type TranslateResult = {
   ok: boolean;
@@ -10,25 +10,28 @@ export type TranslateResult = {
 };
 
 /**
- * Obtiene el texto en español base (o el texto actual no vacío) para un campo localizado.
+ * Obtiene el texto en el idioma base (o el texto actual no vacío) para un campo localizado.
  */
-export function getBaseSpanishText(
+export function getBaseText(
   localizedField: LocalizedText | undefined,
   currentLocale: string,
+  sourceLang: string = BASE_LANGUAGE.code,
 ): string {
   if (!localizedField) return "";
-  // 1. Si existe texto explícito en español
-  const esText = localizedField[BASE_LANGUAGE.code];
-  if (esText && esText.trim()) return esText.trim();
+  // 1. Si existe texto explícito en el idioma base seleccionado
+  const baseText = localizedField[sourceLang];
+  if (baseText && baseText.trim()) return baseText.trim();
 
   // 2. Si el usuario está viendo un idioma activo que tiene texto
   const currentText = localizedField[currentLocale];
   if (currentText && currentText.trim()) return currentText.trim();
 
-  // 3. Cualquier idioma que tenga texto no vacío (p. ej. "en" original del starter)
+  // 3. Cualquier idioma que tenga texto no vacío
   const fallback = pickText(localizedField, currentLocale);
   return fallback.trim();
 }
+
+export const getBaseSpanishText = getBaseText;
 
 /**
  * Extrae todos los textos únicos traducibles de un conjunto de pantallas.
@@ -36,25 +39,26 @@ export function getBaseSpanishText(
 export function extractTranslatableTexts(
   slides: Slide[],
   currentLocale: string,
+  sourceLang: string = BASE_LANGUAGE.code,
 ): { uniqueTexts: string[]; slideCount: number; totalOccurrences: number } {
   const texts = new Set<string>();
   let totalOccurrences = 0;
 
   for (const slide of slides) {
-    const headline = getBaseSpanishText(slide.headline, currentLocale);
+    const headline = getBaseText(slide.headline, currentLocale, sourceLang);
     if (headline) {
       texts.add(headline);
       totalOccurrences++;
     }
 
-    const label = getBaseSpanishText(slide.label, currentLocale);
+    const label = getBaseText(slide.label, currentLocale, sourceLang);
     if (label) {
       texts.add(label);
       totalOccurrences++;
     }
 
     for (const textEl of slide.textElements || []) {
-      const text = getBaseSpanishText(textEl.text, currentLocale);
+      const text = getBaseText(textEl.text, currentLocale, sourceLang);
       if (text) {
         texts.add(text);
         totalOccurrences++;
@@ -77,15 +81,16 @@ export function applyTranslationsToSlides(
   translations: Record<string, Record<string, string>>,
   targetLangs: string[],
   currentLocale: string,
+  sourceLang: string = BASE_LANGUAGE.code,
 ): Slide[] {
   return slides.map((slide) => {
     let headline = { ...(slide.headline || {}) };
     let label = { ...(slide.label || {}) };
 
-    const baseHeadline = getBaseSpanishText(slide.headline, currentLocale);
+    const baseHeadline = getBaseText(slide.headline, currentLocale, sourceLang);
     if (baseHeadline) {
-      // Aseguramos que la base española contenga el texto base
-      headline = writeLocalized(headline, BASE_LANGUAGE.code, baseHeadline);
+      // Aseguramos que el idioma base contenga el texto fuente
+      headline = writeLocalized(headline, sourceLang, baseHeadline);
       for (const lang of targetLangs) {
         const translated = translations[lang]?.[baseHeadline];
         if (translated) {
@@ -94,9 +99,9 @@ export function applyTranslationsToSlides(
       }
     }
 
-    const baseLabel = getBaseSpanishText(slide.label, currentLocale);
+    const baseLabel = getBaseText(slide.label, currentLocale, sourceLang);
     if (baseLabel) {
-      label = writeLocalized(label, BASE_LANGUAGE.code, baseLabel);
+      label = writeLocalized(label, sourceLang, baseLabel);
       for (const lang of targetLangs) {
         const translated = translations[lang]?.[baseLabel];
         if (translated) {
@@ -107,9 +112,9 @@ export function applyTranslationsToSlides(
 
     const textElements: TextElement[] = (slide.textElements || []).map((el) => {
       let text = { ...(el.text || {}) };
-      const baseElText = getBaseSpanishText(el.text, currentLocale);
+      const baseElText = getBaseText(el.text, currentLocale, sourceLang);
       if (baseElText) {
-        text = writeLocalized(text, BASE_LANGUAGE.code, baseElText);
+        text = writeLocalized(text, sourceLang, baseElText);
         for (const lang of targetLangs) {
           const translated = translations[lang]?.[baseElText];
           if (translated) {
@@ -135,15 +140,20 @@ export function applyTranslationsToSlides(
 export async function executeAutoTranslation(
   project: ProjectState,
   options: {
+    sourceLang?: string;
     targetLangs?: string[];
     deviceOnly?: boolean;
     onProgress?: (status: string) => void;
   } = {},
 ): Promise<{ nextState: ProjectState; result: TranslateResult }> {
-  const targetLangs = options.targetLangs || DEFAULT_TRANSLATION_PACK.map((l) => l.code);
+  const sourceLang = options.sourceLang || project.locale || BASE_LANGUAGE.code;
+  const targetLangs = (options.targetLangs || getTranslationPackForSource(sourceLang).map((l) => l.code)).filter(
+    (code) => code !== sourceLang,
+  );
   const deviceOnly = !!options.deviceOnly;
+  const sourceInfo = getLanguageInfo(sourceLang);
 
-  options.onProgress?.("Extrayendo textos en español...");
+  options.onProgress?.(`Extrayendo textos en ${sourceInfo.name}...`);
 
   // Recolectar pantallas a traducir
   const targetDevices = deviceOnly ? [project.device] : (Object.keys(project.slidesByDevice) as Array<keyof typeof project.slidesByDevice>);
@@ -152,7 +162,7 @@ export async function executeAutoTranslation(
     allSlidesToProcess.push(...(project.slidesByDevice[d] || []));
   }
 
-  const { uniqueTexts, totalOccurrences } = extractTranslatableTexts(allSlidesToProcess, project.locale);
+  const { uniqueTexts, totalOccurrences } = extractTranslatableTexts(allSlidesToProcess, project.locale, sourceLang);
 
   if (uniqueTexts.length === 0) {
     return {
@@ -174,7 +184,7 @@ export async function executeAutoTranslation(
     body: JSON.stringify({
       texts: uniqueTexts,
       targetLangs,
-      sourceLang: BASE_LANGUAGE.code,
+      sourceLang,
     }),
   });
 
@@ -189,17 +199,17 @@ export async function executeAutoTranslation(
   const nextSlidesByDevice = { ...project.slidesByDevice };
   for (const d of targetDevices) {
     const originalSlides = project.slidesByDevice[d] || [];
-    nextSlidesByDevice[d] = applyTranslationsToSlides(originalSlides, translations, targetLangs, project.locale);
+    nextSlidesByDevice[d] = applyTranslationsToSlides(originalSlides, translations, targetLangs, project.locale, sourceLang);
   }
 
-  // Asegurar que la lista de idiomas del proyecto incluya español primero y todos los destinos
-  const updatedLocalesSet = new Set<string>([BASE_LANGUAGE.code, ...project.locales, ...targetLangs]);
+  // Asegurar que la lista de idiomas del proyecto incluya el idioma base primero y todos los destinos
+  const updatedLocalesSet = new Set<string>([sourceLang, ...project.locales, ...targetLangs]);
   const nextLocales = Array.from(updatedLocalesSet);
 
   const nextState: ProjectState = {
     ...project,
     locales: nextLocales,
-    locale: project.locale === "en" && nextLocales.includes("es") ? "es" : project.locale,
+    locale: sourceLang,
     slidesByDevice: nextSlidesByDevice,
   };
 

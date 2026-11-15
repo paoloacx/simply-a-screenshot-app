@@ -1008,7 +1008,16 @@ export function ScreenshotEditor() {
         importedFont={state.importedFont}
         setImportedFont={(importedFont) => setState((p) => ({ ...p, fontId: "self-hosted", importedFont }))}
         locale={state.locale}
-        setLocale={(v) => setState((p) => ({ ...p, locale: v }), { history: false })}
+        setLocale={(v) =>
+          setState(
+            (p) => ({
+              ...p,
+              locale: v,
+              locales: p.locales.includes(v) ? p.locales : [...p.locales, v],
+            }),
+            { history: false },
+          )
+        }
         locales={state.locales}
         device={state.device}
         setDevice={handleDeviceChange}

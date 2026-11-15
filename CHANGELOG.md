@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.2
+
+- Update the default App Store export size for iPhone (and CarPlay's iPhone
+  slot) to 6.3" (1206×2622 / 2622×1206) and fix the 6.1" preset to 1179×2556
+  (2556×1179), keeping 6.9" and 6.5" as secondary options.
+- Allow choosing any supported language as the project's base/source language
+  both from the toolbar language selector and inside the auto-translation
+  dialog (e.g. starting in English and translating to Spanish and the rest of
+  the App Store pack).
+
 ## 1.0.1
 
 - Fix the Duo device selector opening the landscape deck when choosing the
